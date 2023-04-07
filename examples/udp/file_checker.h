@@ -1,0 +1,6 @@
+#ifndef EXAMPLE_UDP_FILE_CHECKER_H
+#define EXAMPLE_UDP_FILE_CHECKER_H
+
+string GenSha256(int fd);
+
+#endif // EXAMPLE_UDP_FILE_CHECKER_H

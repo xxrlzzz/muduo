@@ -94,6 +94,19 @@ int sockets::createNonblockingOrDie(sa_family_t family)
   return sockfd;
 }
 
+int sockets::createUdpNonblockingOrDie() {
+#if VALGRIND
+  int sockfd = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+#else
+  int sockfd =
+      ::socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_UDP);
+#endif
+  if (sockfd < 0) {
+    LOG_SYSFATAL << "sockets::createUdpNonblockingOrDie";
+  }
+  return sockfd;
+}
+
 void sockets::bindOrDie(int sockfd, const struct sockaddr* addr)
 {
   int ret = ::bind(sockfd, addr, static_cast<socklen_t>(sizeof(struct sockaddr_in6)));
